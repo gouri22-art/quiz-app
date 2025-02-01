@@ -9,7 +9,7 @@ export const AuthProvider = ({children}) => {
     //Login 
     const login = async(username, password) =>{
         try{
-            const res = await axios.post("https://uneven-thread-rake.glitch.me/login",{username, password});
+            const res = await axios.post("https://efficacious-fixed-bear.glitch.me/login",{username, password});
             setUser(res.data.user);
 
         }catch(error){
