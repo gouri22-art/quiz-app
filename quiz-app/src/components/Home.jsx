@@ -2,17 +2,18 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import "../styles/styles.css";
-import { log } from "console";
 
 const Home = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
     const { login } = useAuth();
     const navigate = useNavigate();
+    const[error,setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login(credentials.username, credentials.password);
-        navigate("/quiz");
+        const res = await login(credentials.username, credentials.password);
+        if(res.success) navigate("/quiz");
+        else setError("Invalid Credentials")
     }
     return (
         <div className="container">
@@ -23,7 +24,7 @@ const Home = () => {
                 <button type="submit">Login</button>
 
             </form>
-
+            {error && <p>{error}</p>}
         </div>
     );
 }

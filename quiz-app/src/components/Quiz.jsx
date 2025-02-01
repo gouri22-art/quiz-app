@@ -2,26 +2,30 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 import QuizItem from "./QuizItem";
 import { useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
 import "../styles/styles.css";
 
 const Quiz = () =>{
     const[questions, setQuestions]= useState([]);
     const[answers, setAnswers] = useState({});
     const navigate = useNavigate();
+    const {user} = useAuth();
 
     useEffect(()=>{
-        axios.get("https://efficacious-fixed-bear.glitch.me/questions")
-        .then((res)=> setQuestions(res.data));
+        axios.get("https://efficacious-fixed-bear.glitch.me/api/questions")
+        .then((res)=> {
+            if(res.data.success)  setQuestions(res.data.questions);
+        });
 
     }, []);
 
-    const handleAnswer = (qId, answer) =>{
-        setAnswers({...answers, [qId]:answer});
+    // const handleAnswer = (qId, answer) =>{
+    //     setAnswers({...answers, [qId]:answer});
 
-    };
+    // };
 
     const submitQuiz = () =>{
-        axios.post("https://efficacious-fixed-bear.glitch.me/submit",{answers})
+        axios.post("https://efficacious-fixed-bear.glitch.me/api/submit",{userId: user.userId, answers})
         .then(()=> navigate("/result"));
 
     };

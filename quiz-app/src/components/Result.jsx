@@ -6,12 +6,18 @@ import "../styles/styles.css";
 const Result = () => {
     const { user } = useAuth();
     const [score, setScore] = useState(null);
+    const[total, setTotal] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://efficacious-fixed-bear.glitch.me/${user.id}`)
-            .then((res) => setScore(res.data.score));
+        axios.get(`https://efficacious-fixed-bear.glitch.me/api/result/${user.userId}`)
+            .then((res) => {
+                if(res.data.success){
+                    setScore(res.data.score);
+                    setTotal(res.data.totalQuestions);
+                }
+            });
 
-    }, [user]);
+    }, [user.userId]);
 
     return (
         <div className="container">

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "../styles/styles.css";
 
-const QuizItem = ({question, onAnswer})=>{
+const QuizItem = ({question, setAnswer})=>{
     const[selected, setSelected] = useState(null);
     const[showAnswer, setShowAnswer] = useState(false);
 
     const handleSelect = (option) =>{
         setSelected(option);
-        onAnswer(question.id, option);
+        setAnswer((prev) => ({...prev,[question.id]: option}));
     };
 
     return(

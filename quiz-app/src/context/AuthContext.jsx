@@ -9,12 +9,17 @@ export const AuthProvider = ({children}) => {
     //Login 
     const login = async(username, password) =>{
         try{
-            const res = await axios.post("https://efficacious-fixed-bear.glitch.me/login",{username, password});
-            setUser(res.data.user);
+            const res = await axios.post("https://efficacious-fixed-bear.glitch.me/login",{username, password,});
+            if(res.data.success){
+                setUser(res.data);
+                return { success : true}
+            }
 
-        }catch(error){
-            console.log(error);
-            alert("Login Failed");
+        }
+        catch(error){
+            // console.log(error);
+            // alert("Login Failed");
+            return {success : false, message: " Invalid Credentials"};
 
         };
 
